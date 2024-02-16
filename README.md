@@ -19,5 +19,5 @@ To build a simple shell that mimics the Bash shell but with limited features.
 
 ## 👤 Coded by:
 
-- 👤 Buyeke Obare hTtps://github.com/buyekeobare
+- 👤 Buyeke Obare https://github.com/buyekeobare
 - 👤 Mitchell M: https://github.com/mumiak-mitch
