@@ -16,8 +16,3 @@ To build a simple shell that mimics the Bash shell but with limited features.
 - Practice team work and collaboration
 
 - Gain the confidence to solve real world problems
-
-## 👤 Coded by:
-
-- 👤 Buyeke Obare https://github.com/buyekeobare
-- 👤 Mitchell M: https://github.com/mumiak-mitch
