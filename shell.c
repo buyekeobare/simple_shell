@@ -57,5 +57,5 @@ int main(void)
 	}
 
 	free(buf);
-	return 0;
+	return (0);
 }
