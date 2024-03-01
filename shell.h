@@ -151,7 +151,7 @@ int split_cmds(data_shell *data_sh, char *n);
 
 /* mili-rep_var.c */
 void check_environ(rVar **hd, char *n, data_shell *data_sh);
-int check_variables(r_Var **hd, char *n, char *stat, data_shell *data_sh);
+int check_variables(rVar **hd, char *n, char *stat, data_shell *data_sh);
 char *rep_input(rVar **hd, char *n, char *new_inp, int new_len);
 char *rep_variables(char *n, data_shell *data_sh);
 
@@ -166,7 +166,7 @@ int _execline(data_shell *data_sh);
 int is_cd(char *path, int *i);
 char *which(char *cmd, char **envir);
 int is_exec(data_shell *data_sh);
-int check_err_cmd(char *ddir, data-shell *data_sh);
+int check_err_cmd(char *ddir, data_shell *data_sh);
 int cmd_executable(data_shell *data_sh)
 
 /* mili-envir1.c */
@@ -190,7 +190,7 @@ void cdToHome(data_shell *data_sh)
 int cdir_shell(data_shell *data_sh);
 
 /* mili-get_builtin.c */
-int (*_getbuiltin(char *cmd))(data-shell *)
+int (*_getbuiltin(char *cmd))(data_shell *)
 
 /* mili-exit_shell.c */
 int _exitshell(data_shell *data_sh)
