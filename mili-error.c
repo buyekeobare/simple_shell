@@ -2,23 +2,25 @@
 
 /**
  * strgcat_cd - The function that concatenates message for cd error
- * @data_sh: (directory) relevant data
+ *
+ * @data_sh: relevant data structure
  * @msg: message to print
- * @err_msg: output message
- * @vrs_str: counter lines
+ * @error_msg: output message
+ * @counter_str: counter lines
  * Return: error message
  */
-char *strgcat_cd(data_shell *data_sh, char *msg, char *err_msg, char *vrs_str)
+char *strgcat_cd(data_shell *data_sh, char *msg, char *error_msg, char *counter_str)
 
 {
 	char *illegal_flag;
 
-	_strgcpy(err_msg, data_sh->argv[0]);
-	_strgcat(err_msg, ": ");
-	_strgcat(err_msg, vrs_str);
-	_strgcat(err_msg, ": ");
-	_strgcat(err_msg, data_sh->args[0]);
-	_strgcat(err_msg, msg);
+	_strgcpy(error_msg, data_sh->argv[0]);
+	_strgcat(error_msg, ": ");
+	_strgcat(error_msg, counter_str);
+	_strgcat(error_msg, ": ");
+	_strgcat(error_msg, data_sh->args[0]);
+	_strgcat(error_msg, msg);
+
 	if (data_sh->args[1][0] == '-')
 	{
 		illegal_flag = malloc(3);
@@ -30,117 +32,119 @@ char *strgcat_cd(data_shell *data_sh, char *msg, char *err_msg, char *vrs_str)
 	}
 	else
 	{
-		_strgcat(err, data_sh->args[1]);
+		_strgcat(error_msg, data_sh->args[1]);
 	}
 
-	_strgcat(err_msg, "\n");
-	_strgcat(err_msg, "\0");
-	return (err_msg);
+	_strgcat(error_msg, "\n");
+	_strgcat(error_msg, "\0");
+	return (error_msg);
 }
 
 /**
- * errGet_cd - The error message for cd command in get_cd
- * @data_sh: (directory) relevant data
+ * gen_cd_error - a function that generates error 
+ * message for cd command in get_cd
+ * @data_sh: relevant data structure for shell
  * Description - prints an error message for cd
  * Return: Error message
  */
-char *errGet_cd(data_shell *data_sh)
+char *gen_cd_error(data_shell *data_sh)
 {
-	int len, len_id;
-	char *err_msg, *vrs_str, *msg;
+	int len, length_id;
+	char *error_msg, *counter_str, *msg;
 
-	vrs_str = mili_itoa(data_sh->result);
+	counter_str = mili_itoa(data_sh->result);
 	if (data_sh->args[1][0] == '-')
 	{
 		msg = ": Illegal option ";
-		len_id = 2;
+		length_id = 2;
 	}
 	else
 	{
 		msg = ": can't cd to ";
-		len_id = _strglen(data_sh->args[1]);
+		length_id = _strglen(data_sh->args[1]);
 	}
 
 	len = _strglen(data_sh->argv[0]) + _strglen(data_sh->args[0]);
-	len += _strglen(vrs_str) + _strglen(msg) + len_id + 5;
-	err_msg = malloc(sizeof(char) * (len + 1));
+	len += _strglen(counter_str) + _strglen(msg) + length_id + 5;
+	error_msg = malloc(sizeof(char) * (len + 1));
 
-	if (err_msg == 0)
+	if (error_msg == 0)
 	{
-		free(vrs_str);
+		free(counter_str);
 		return (NULL);
 	}
 
-	err_msg = strgcat_cd(data_sh, msg, err_msg, vrs_str);
+	error_msg = strgcat_cd(data_sh, msg, error_msg, counter_str);
 
-	free(vrs_str);
+	free(counter_str);
 
-	return (err_msg);
+	return (error_msg);
 }
 
 /**
- * errNot_found - The generic error message for command not found
- * @data_sh: (result, arguments) relevant data
+ * gen_not_found_error - a function that generates 
+ * error message for command not found
+ * @data_sh: Relevant data structure (counter, arguments) 
  * Description - prints an error message for command not found
  * Return: error message
  */
-char *errNot_found(data_shell *data_sh)
+char *gen_not_found_error(data_shell *data_sh)
 {
 	int len;
-	char *err_msg;
-	char *vrs_str;
+	char *error_msg;
+	char *counter_str;
 
-	vrs_str = mili_itoa(data_sh->result);
-	len = _strglen(data_sh->argv[0]) + _strglen(vrs_str);
+	counter_str = mili_itoa(data_sh->result);
+	len = _strglen(data_sh->argv[0]) + _strglen(counter_str);
 	len += _strglen(data_sh->args[0]) + 16;
-	err_msg = malloc(sizeof(char) * (len + 1));
-	if (err == 0)
+	error_msg = malloc(sizeof(char) * (len + 1));
+	if (error_msg == 0)
 	{
-		free(err_msg);
-		free(vrs_str);
+		free(error_msg);
+		free(counter_str);
 		return (NULL);
 	}
-	_strgcpy(err_msg, data_sh->argv[0]);
-	_strgcat(err_msg, ": ");
-	_strgcat(err_msg, vrs_str);
-	_strgcat(err_msg, ": ");
-	_strgcat(err_msg, data_sh->args[0]);
-	_strgcat(err_msg, ": not found\n");
-	_strgcat(err_msg, "\0");
-	free(vrs_str);
-	return (err);
+	_strgcpy(error_msg, data_sh->argv[0]);
+	_strgcat(error_msg, ": ");
+	_strgcat(error_msg, counter_str);
+	_strgcat(error_msg, ": ");
+	_strgcat(error_msg, data_sh->args[0]);
+	_strgcat(error_msg, ": not found\n");
+	_strgcat(error_msg, "\0");
+	free(counter_str);
+	return (error_msg);
 }
 
 /**
- * errExit_shell - The generic error message for exit in getExit
- * @data_sh: (result, arguments) relevant data
+ * gen_exit_shell_error - The generic error message for exit in getExit
+ * @data_sh: Relevant data structure (counter, arguments)
  * Description - prints error message for exit in getExit
  * Return: error message
  */
-char *errExit_shell(data_shell *data_sh)
+char *gen_exit_shell_error(data_shell *data_sh)
 {
 	int len;
-	char *err_msg;
-	char *vrs_str;
+	char *error_msg;
+	char *counter_str;
 
-	vrs_str = mili_itoa(data_sh->result);
-	len = _strglen(data_sh->argv[0]) + _strglen(vrs_str);
+	counter_str = mili_itoa(data_sh->result);
+	len = _strglen(data_sh->argv[0]) + _strglen(counter_str);
 	len += _strglen(data_sh->args[0]) + _strglen(data_sh->args[1]) + 23;
-	err_msg = malloc(sizeof(char) * (len + 1));
-	if (err_msg == 0)
+	error_msg = malloc(sizeof(char) * (len + 1));
+	if (error_msg == 0)
 	{
-		free(vrs_str);
+		free(counter_str);
 		return (NULL);
 	}
-	_strgcpy(err_msg, data_sh->argv[0]);
-	_strgcat(err_msg, ": ");
-	_strgcat(err_msg, vrs_str);
-	_strgcat(err_msg, ": ");
-	_strgcat(err_msg, data_sh->args[0]);
-	_strgcat(err_msg, ": Illegal number: ");
-	_strgcat(err_msg, data_sh->args[1]);
-	_strgcat(err_msg, "\n\0");
-	free(vrs_str);
+	_strgcpy(error_msg, data_sh->argv[0]);
+	_strgcat(error_msg, ": ");
+	_strgcat(error_msg, counter_str);
+	_strgcat(error_msg, ": ");
+	_strgcat(error_msg, data_sh->args[0]);
+	_strgcat(error_msg, ": Illegal number: ");
+	_strgcat(error_msg, data_sh->args[1]);
+	_strgcat(error_msg, "\n\0");
+	free(counter_str);
 
-	return (err_msg);
+	return (error_msg);
 }

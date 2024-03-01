@@ -27,7 +27,7 @@ char *witht_comment(char *n)
 
 	if (upto != 0)
 	{
-		n = re_allocate(n, k, upto + 1);
+		n = mili_realloc(n, k, upto + 1);
 		n[upto] = '\0';
 	}
 

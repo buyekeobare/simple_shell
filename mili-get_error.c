@@ -14,19 +14,19 @@ int get_err(data_shell *data_sh, int err_val)
 	switch (err_val)
 	{
 	case -1:
-		err = errEnv(data_sh);
+		err = gen_env_error(data_sh);
 		break;
 	case 126:
-		err = errPath_126(data_sh);
+		err = gen_path126_error(data_sh);
 		break;
 	case 127:
-		err = errNot_found(data_sh);
+		err = gen_not_found_error(data_sh);
 		break;
 	case 2:
 		if (_strgcmp("exit", data_sh->args[0]) == 0)
-			err = errExit_shell(data_sh);
+			err = gen_exit_shell_error(data_sh);
 		else if (_strgcmp("cd", data_sh->args[0]) == 0)
-			err = errGet_cd(data_sh);
+			err = gen_cd_error(data_sh);
 		break;
 	}
 

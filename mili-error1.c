@@ -1,69 +1,71 @@
 #include "shell.h"
 
 /**
- * errEnv - Error message for env 
- * @data_sh: (result, arguments) relevant data
+ * gen_env_error - a function that generates 
+ * an error message for env in get_env 
+ * @data_sh: relevant data structure (counter, arguments) 
  * Return: Error message
  */
-char *errEnv(data_shell *data_sh)
+char *gen_env_error(data_shell *data_sh)
 {
 	int len;
-	char *err_msg;
-	char *vrs_str;
+	char *error_msg;
+	char *counter_str;
 	char *msg;
 
-	vrs_str = mili_itoa(data_sh->result);
+	counter_str = mili_itoa(data_sh->result);
 	msg = ":Unable to add/remove from environment\n";
-	len = _strglen(data_sh->argv[0]) + _strglen(vrs_str);
+	len = _strglen(data_sh->argv[0]) + _strglen(counter_str);
 	len += _strglen(data_sh->args[0]) + _strglen(msg) + 4;
-	err_msg = malloc(sizeof(char) * (len + 1));
-	if (err_msg == 0)
+	error_msg = malloc(sizeof(char) * (len + 1));
+	if (error_msg == 0)
 	{
-		free(err_msg);
-		free(vrs_str);
+		free(error_msg);
+		free(counter_str);
 		return (NULL);
 	}
 
-	_strgcpy(err_msg, data_sh->argv[0]);
-	_strgcat(err_msg, ": ");
-	_strgcat(err_msg, vrs_str);
-	_strgcat(err_msg, ": ");
-	_strgcat(err_msg, data_sh->args[0]);
-	_strgcat(err_msg, msg);
-	_strgcat(err_msg, "\0");
-	free(vrs_str);
+	_strgcpy(error_msg, data_sh->argv[0]);
+	_strgcat(error_msg, ": ");
+	_strgcat(error_msg, counter_str);
+	_strgcat(error_msg, ": ");
+	_strgcat(error_msg, data_sh->args[0]);
+	_strgcat(errr_msg, msg);
+	_strgcat(error_msg, "\0");
+	free(counter_str);
 
-	return (err_msg);
+	return (error_msg);
 }
 
 /**
- * errPath_126 - Error message for path and failure denied permission.
- * @data_sh: (result, arguments) relevant data
+ * gen_path126_error - a fuction that generates an error message 
+ * for path and failure denied permission.
+ * @data_sh: relevant data structure (counter, arguments)
  * Return: error string
  */
-char *errPath_126(data_shell *data_sh)
+char *gen_path126_error(data_shell *data_sh)
 {
 	int len;
-	char *vrs_str;
-	char *err_msg;
+	char *counter_str;
+	char *error_msg;
 
-	vrs_str = mili_itoa(data_sh->result);
-	len = _strglen(data_sh->argv[0]) + _strglen(vrs_str);
+	counter_str = mili_itoa(data_sh->result);
+	len = _strglen(data_sh->argv[0]) + _strglen(counter_str);
 	len += _strglen(data_sh->args[0]) + 24;
-	err_msg = malloc(sizeof(char) * (len + 1));
-	if (err_msg == 0)
+	error_msg = malloc(sizeof(char) * (len + 1));
+	if (error_msg == 0)
 	{
-		free(err_msg);
-		free(vrs_str);
+		free(error_msg);
+		free(counter_str);
 		return (NULL);
 	}
-	_strgcpy(err_msg, data_sh->argv[0]);
-	_strgcat(err_msg, ": ");
-	_strgcat(err_msg, vrs_str);
-	_strgcat(err_msg, ": ");
-	_strgcpy(err_msg, data_sh->args[0]);
-	_strgcpy(err_msg, ": Permission denied\n");
-	_strgcat(err_msg, "\0");
-	free(vrs_str);
-	return (err_msg);
+	_strgcpy(error_msg, data_sh->argv[0]);
+	_strgcat(error_msg, ": ");
+	_strgcat(error_msg, counter_str);
+	_strgcat(error_msg, ": ");
+	_strgcpy(error_msg, data_sh->args[0]);
+	_strgcpy(error_msg, ": Permission denied\n");
+	_strgcat(error_msg, "\0");
+	free(counter_str);
+	return (error_msg);
 }

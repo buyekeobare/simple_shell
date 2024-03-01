@@ -1,11 +1,11 @@
 #include "shell.h"
 
 /**
- * getLength - function that gets the lenghth of a number
- * @num: type is interger number
- * Return: length
+ * brings_length - function that gets the lenghth of a number
+ * @num: type is integer number
+ * Return: length of number
  */
-int getLength(int num)
+int brings_length(int num)
 {
 	unsigned int nm;
 	int len = 1;
@@ -29,24 +29,24 @@ int getLength(int num)
 }
 /**
  * mili_itoa - function that converts interger to a string
- * @num: type is interger number
+ * @num: integer to be converted
  * Return: string
  */
 char *mili_itoa(int num)
 {
 	unsigned int nm;
-	int len = getLength(num);
-	char *buffer;
+	int len = brings_length(num);
+	char *count;
 
-	buffer = malloc(sizeof(char) * (len + 1));
-	if (buffer == 0)
+	count = malloc(sizeof(char) * (len + 1));
+	if (count == 0)
 		return (NULL);
-	*(buffer + len) = '\0';
+	*(count + len) = '\0';
 
 	if (num < 0)
 	{
 		nm = num * -1;
-		buffer[0] = '-';
+		count[0] = '-';
 	}
 	else
 	{
@@ -55,45 +55,45 @@ char *mili_itoa(int num)
 
 	len--;
 	do {
-		*(buffer + len) = (nm % 10) + '0';
+		*(count + len) = (nm % 10) + '0';
 		nm = nm / 10;
 		len--;
 	}
 	while (nm > 0)
 		;
-	return (buffer);
+	return (count);
 }
 
 /**
  * mili_atoi - converts a string to an integer
- * @s: string input parameter
+ * @str_input: string input parameter
  * Return: converted integer from string
  */
 
-int mili_atoi(char *s)
+int mili_atoi(char *str_input)
 {
-	unsigned int result = 0, n = 0, x = 0, m = 1, z = 1, i;
+	unsigned int index = 0, n = 0, x = 0, m = 1, z = 1, i;
 
-	while (*(s + result) != '\0')
+	while (*(str_input + index) != '\0')
 	{
-		if (n > 0 && (*(s + result) < '0' || *(s + result) > '9'))
+		if (n > 0 && (*(str_input + index) < '0' || *(str_input + index) > '9'))
 			break;
 
-		if (*(s + result) == '-')
+		if (*(str_input + index) == '-')
 			m *= -1;
 
-		if ((*(s + result) >= '0') && (*(s + result) <= '9'))
+		if ((*(str_input + index) >= '0') && (*(str_input + index) <= '9'))
 		{
 			if (n > 0)
 				z *= 10;
 			n++;
 		}
-		result++;
+		index++;
 	}
 
-	for (i = result - n; i < result; i++)
+	for (i = index - n; i < index; i++)
 	{
-		x = x + ((*(s + i) - 48) * z);
+		x = x + ((*(str_input + i) - 48) * z);
 		z /= 10;
 	}
 	return (x * m);

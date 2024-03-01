@@ -49,7 +49,7 @@ void setEnv(char *nm, char *val, data_shell *data_sh)
 		free(v_env);
 	}
 
-	data_sh->en_var = _re_allocatedp(data_sh->en_var, j, sizeof(char *) * (j + 2));
+	data_sh->en_var = mili_realloc_dp(data_sh->en_var, j, sizeof(char *) * (j + 2));
 	data_sh->en_var[j] = cpy_info(nm, val);
 	data_sh->en_var[j + 1] = NULL;
 }

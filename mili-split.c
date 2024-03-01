@@ -48,7 +48,7 @@ char *swap_characters(char *n, int bool)
  * @cmd_head: head of command lines list
  * @n: input string
  */
-void add_sep_commands(sepLst **sep_head, lineLst **cmd_hed, char *n)
+void add_sep_commands(separ_list **sep_head, line_lst **cmd_head, char *n)
 {
 	int j;
 	char *lines;
@@ -58,11 +58,11 @@ void add_sep_commands(sepLst **sep_head, lineLst **cmd_hed, char *n)
 	for (j = 0; n[j]; j++)
 	{
 		if (n[j] == ';')
-			addSep_ndEnd(sep_head, n[j]);
+			add_separ_list_end(sep_head, n[j]);
 
 		if (n[j] == '|' || n[j] == '&')
 		{
-			addSep_ndEnd(sep_head, n[j]);
+			add_separ_list_end(sep_head, n[j]);
 			j++;
 		}
 	}
@@ -70,7 +70,7 @@ void add_sep_commands(sepLst **sep_head, lineLst **cmd_hed, char *n)
 	lines = _strgtok(n, ";|&");
 	do {
 		lines = swap_characters(lines, 1);
-		addLine_ndEnd (cmd_head, lines);
+		add_line_list_end (cmd_head, lines);
 		lines = _strgtok(NULL, ";|&");
 	} while (lines != NULL);
 
@@ -83,11 +83,11 @@ void add_sep_commands(sepLst **sep_head, lineLst **cmd_hed, char *n)
  * @datash: data structure
  * Return: no return
  */
-void nxt_cmd_line(sepLst **sep_list, lineLst **cmd_list, data_shell *data_sh)
+void nxt_cmd_line(separ_list **sep_list, line_lst **cmd_list, data_shell *data_sh)
 {
 	int sep_loop;
-	sepLst *sep_ls;
-	lineLst *cmd_ls;
+	separ_list *sep_ls;
+	line_lst *cmd_ls;
 
 	sep_loop = 1;
 	sep_ls = *sep_list;
@@ -97,14 +97,14 @@ void nxt_cmd_line(sepLst **sep_list, lineLst **cmd_list, data_shell *data_sh)
 	{
 		if (data_sh->stat == 0)
 		{
-			if (sep_ls->separ== '&' || sep_ls->separ == ';')
+			if (sep_ls->separator== '&' || sep_ls->separator == ';')
 				sep_loop = 0;
-			if (sep_ls->separ == '|')
+			if (sep_ls->separator == '|')
 				cmd_ls = cmd_ls->nxtNode, sep_ls = sep_ls->nxtNode;
 		}
 		else
 		{
-			if (sep_ls->separ == '|' || sep_ls->separ == ';')
+			if (sep_ls->separator == '|' || sep_ls->separator == ';')
 				sep_loop = 0;
 			if (sep_ls->septor == '&')
 				cmd_ls = cmd_ls->nxtNode, sep_ls = sep_ls->nxtNode;
@@ -145,7 +145,7 @@ char **split_string(char *n)
 		if (index == buffer_size)
 		{
 			buffer_size += TOK_BUFSIZE;
-			tokens = _re_allocatedp(tokens, index, sizeof(char *) * buffer_size);
+			tokens = mili_realloc_dp(tokens, index, sizeof(char *) * buffer_size);
 			if (tokens == NULL)
 			{
 				write(STDERR_FILENO, ": allocation error\n", 18);
@@ -169,8 +169,8 @@ char **split_string(char *n)
 int split_cmds(data_shell *data_sh, char *n)
 {
 
-	sepLst *sep_head, *sep_list;
-	lineLst *cmd_head, *cmd_list;
+	separ_list *sep_head, *sep_list;
+	line_lst *cmd_head, *cmd_list;
 	int loop;
 
 	sep_head = NULL;
@@ -197,8 +197,8 @@ int split_cmds(data_shell *data_sh, char *n)
 			cmd_list = cmd_list->nxtNode;
 	}
 
-	free_SepLst(&sep_head);
-	free_LineLst(&cmd_head);
+	free_separ_list(&sep_head);
+	free_line_lst(&cmd_head);
 
 	if (loop == 0)
 		return (0);

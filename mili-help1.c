@@ -2,6 +2,7 @@
 
 /**
  * helpEnv - Displays information about builtin command 'env'
+ * Return: no return
  */
 void helpEnv(void)
 {
@@ -13,6 +14,7 @@ void helpEnv(void)
 }
 /**
  * helpSetenv - Displays information about builtin command 'setenv'
+ * Return: no return
  */
 void helpSetenv(void)
 {
@@ -28,6 +30,7 @@ void helpSetenv(void)
 /**
 
  * helpUnsetenv - Displays information about builtin command 'unsetenv'
+ * Return: no return
  */
 void helpUnsetenv(void)
 {
@@ -40,6 +43,7 @@ void helpUnsetenv(void)
 
 /**
  * genHelp - Displays information about builtin command 'help'
+ * Return: no return
  */
 void genHelp(void)
 {
@@ -61,6 +65,7 @@ void genHelp(void)
 }
 /**
  * exitHelp - Displays information about builtin command 'exit'
+ * Return: no return
  */
 void exitHelp(void)
 {

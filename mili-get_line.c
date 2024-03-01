@@ -65,7 +65,7 @@ ssize_t getline_fn(char **line_ptr, size_t *n, FILE *stream)
 			break;
 		}
 		if (d_input >= BUFSIZE)
-			buffer = re_allocate(buffer, d_input, d_input + 1);
+			buffer = mili_realloc(buffer, d_input, d_input + 1);
 		buffer[d_input] = t;
 		d_input++;
 	}

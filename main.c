@@ -9,6 +9,7 @@ void data_free(data_shell *data_sh)
     unsigned int a;
 
     for (a = 0; data_sh->env_var[a]; a++)
+    
     {
         free(data_sh->env_var[a]);
     }

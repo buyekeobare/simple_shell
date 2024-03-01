@@ -43,16 +43,16 @@ typedef struct data
 } data_shell;
 
 /**
- * struct sepLst - a single linked list
+ * struct separ_list - a single linked list
  * @separ: ; | &
  * @nxtNode: next node
  * Description: Single linked list to store separators
  */
-typedef struct sepLst
+typedef struct separ_list
 {
 	char separ;
-	struct sepLst_s *nxtNode;
-} sepLst;
+	struct separ_list_s *nxtNode;
+} separ_list;
 
 /**
  * struct lineLst - a single linked list
@@ -94,19 +94,19 @@ typedef struct builtin
 } builtin_t;
 
 /* milli-linked_lists.c */
-sepLst *addSep_ndEnd(sepLst **hd, char sep);
-void free_sepLst(sepLst **hd);
-lineLst *addLine_ndEnd(lineLst **hd, char *ln);
-void free_lineLst(lineLst **hd);
+separ_list *add_separ_list_end(separ_list **head_list, char separ);
+void free_separ_list(separ_list **head_list);
+line_lst *add_line_list_end(line_lst **head_list, char *line_cmd);
+void free_line_lst(line_lst **head_list);
 
 /* mili-linked_lists2.c */
-rVar *add_rVar_node(rVar **hd, int varlen, char *varval, int vallen);
-void free_rVar_list(rVar **hd);
+rVar *add_var_end(rVar **head_list, int varlen, char *varval, int vallen);
+void free_var_list(rVar **head_list);
 
 /* mili-mem.c */
-void mem_cpy(void *nwptr, const void *ptr, unsigned int n);
-void *re_allocate(void *ptr, unsigned int ol_size, unsigned int nw_size);
-char **re_allocatedp(char **ptr, unsigned int ol_size, unsigned int nw_size);
+void mili_memcpy(void *dest_ptr, const void *src_ptr, unsigned int n);
+void *mili_realloc(void *org_ptr, unsigned int ol_size, unsigned int nw_size);
+char **mili_realloc_dp(char **org_ptr, unsigned int ol_size, unsigned int nw_size);
 
 /* mili-string1.c */
 int _strglen(const char *strg);
@@ -141,8 +141,8 @@ char *read_input(int *result);
 
 /* mili-split.c */
 char *swap_characters(char *n, int bool);
-void add_sep_commands(sepLst **sep_head, lineLst **cmd_hed, char *n);
-void nxt_cmd_line(sepLst **sep_list, lineLst **cmd_list, data_shell *data_sh);
+void add_sep_commands(separ_list **sep_head, lineLst **cmd_hed, char *n);
+void nxt_cmd_line(separ_list **sep_list, lineLst **cmd_list, data_shell *data_sh);
 char **split_string(char *n);
 int split_cmds(data_shell *data_sh, char *n);
 
@@ -193,19 +193,19 @@ int (*_getbuiltin(char *cmd))(data_shell *);
 int _exitshell(data_shell *data_sh);
 
 /* mili-stdlib.c */
-int getLength(int num);
+int brings_length(int num);
 char *mili_itoa(int num);
-int mili_atoi(char *s);
+int mili_atoi(char *str_input);
 
 /* mili-error.c */
-char *strgcat_cd(data_shell *data_sh, char *msg, char *err_msg, char *vrs_str);
-char *errGet_cd(data_shell *data_sh);
-char *errNot_found(data_shell *data_sh);
-char *errExit_shell(data_shell *data_sh);
+char *strgcat_cd(data_shell *data_sh, char *msg, char *error_msg, char *counter_str);
+char *gen_cd_error(data_shell *data_sh);
+char *gen_not_found_error(data_shell *data_sh);
+char *gen_exit_shell_error(data_shell *data_sh);
 
 /* mili-error1.c */
-char *errEnv(data_shell *data_sh);
-char *errPath_126(data_shell *data_sh);
+char *gen_env_error(data_shell *data_sh);
+char *gen_path126_error(data_shell *data_sh);
 char *error_syntax(char **args);
 char *error_permission(char **args);
 

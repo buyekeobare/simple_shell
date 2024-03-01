@@ -2,6 +2,7 @@
 
 /**
  * help_cmd - Displays information about the builtin command help
+ * Return: no return
  */
 void help_cmd (void)
 {
@@ -16,6 +17,7 @@ void help_cmd (void)
 
 /**
  * alias_help - Displays information about the builtin command alias
+ * Return: no return
  */
 void alias_help(void)
 {
@@ -28,6 +30,7 @@ void alias_help(void)
 
 /**
  * cd_help - Displays information about the builtin command cd
+ * Return: no return
  */
 void cd_help(void)
 {

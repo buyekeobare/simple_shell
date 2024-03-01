@@ -1,64 +1,64 @@
 #include "shell.h"
 
 /**
- * mem_cpy - Copies information
- * @nwptr: destination pointer
- * @ptr: source pointer
+ * mili_memcpy - Copies information
+ * @dest_ptr: destination pointer
+ * @src_ptr: source pointer
  * @n: size of new pointer
  * Return: 0
  */
-void mem_cpy(void *nwptr, const void *ptr, unsigned int n)
+void mili_memcpy(void *dest_ptr, const void *src_ptr, unsigned int n)
 
 {
-	char *char_ptr = (char *)ptr;
-	char *char_nwptr = (char *)nwptr;
+	char *char_src_ptr = (char *)src_ptr;
+	char *char_dest_ptr = (char *)dest_ptr;
 	unsigned int x;
 
-	for (x = 0; x < size; x++)
-		char_nwptr[x] = char_ptr[x];
+	for (x = 0; x < n; x++)
+		char_dest_ptr[x] = char_src_ptr[x];
 }
 
 /**
- * re_allocate - It reallocates memory block
- * @ptr: pointer to memory previously allocated
- * @ol_size: size of alloc space of ptr
+ * mili_realloc - It reallocates memory block
+ * @org_ptr: pointer to memory previously allocated
+ * @ol_size: size of allocated space of org_ptr
  * @nw_size: new size of new memory block
- * Return: ptr
- * if nw_size == ol_size return ptr witht changes
+ * Return: orig_ptr
+ * if nw_size == ol_size return org_ptr without changes
  * if malloc fails return NULL
  */
-void *re_allocate(void *ptr, unsigned int ol_size, unsigned int nw_size)
+void *mili_realloc(void *org_ptr, unsigned int ol_size, unsigned int nw_size)
 
 {
-	void *nwptr;
+	void *nw_ptr;
 
-	if (ptr == NULL)
+	if (org_ptr == NULL)
 		return (malloc(nw_size));
 
 	if (nw_size == 0)
 	{
-		free(ptr);
+		free(org_ptr);
 		return (NULL);
 	}
 
 	if (nw_size == ol_size)
-		return (ptr);
+		return (org_ptr);
 
-	nwptr = malloc(nw_size);
-	if (nwptr == NULL)
+	nw_ptr = malloc(nw_size);
+	if (nw_ptr == NULL)
 		return (NULL);
 
 	if (nw_size < ol_size)
-		mem_cpy(nwptr, ptr, nw_size);
+		mili_memcpy(nw_ptr, org_ptr, nw_size);
 	else
-		mem_cpy(nwptr, ptr, ol_size);
+		mili_memcpy(nw_ptr, org_ptr, ol_size);
 
-	free(ptr);
-	return (nwptr);
+	free(org_ptr);
+	return (nw_ptr);
 }
 
 /**
- * re_allocatedp - It reallocates memory block of double pointer
+ * mili_realloc_dp - It reallocates memory block of double pointer
  * @ptr: double pointer to memory prev allocated
  * @ol_size: size of the allocated space of ptr
  * @nw_size: new size of the new memory block
@@ -66,25 +66,25 @@ void *re_allocate(void *ptr, unsigned int ol_size, unsigned int nw_size)
  * if nw_size == ol_size, return ptr witht changes
  * if malloc fails, return NULL
  */
-char **re_allocatedp(char **ptr, unsigned int ol_size, unsigned int nw_size)
+char **mili_realloc_dp(char **or_ptr, unsigned int ol_size, unsigned int nw_size)
 {
-	char **nwptr;
+	char **nw_ptr;
 	unsigned int x;
 
-	if (ptr == NULL)
+	if (org_ptr == NULL)
 		return (malloc(sizeof(char *) * nw_size));
 
 	if (nw_size == ol_size)
-		return (ptr);
+		return (org_ptr);
 
-	nwptr = malloc(sizeof(char *) * nw_size);
-	if (nwptr == NULL)
+	nw_ptr = malloc(sizeof(char *) * nw_size);
+	if (nw_ptr == NULL)
 		return (NULL);
 
 	for (x = 0; x < old_size; x++)
-		nwptr[x] = ptr[x];
+		nw_ptr[x] = org_ptr[x];
 
-	free(ptr);
+	free(org_ptr);
 
-	return (nwptr);
+	return (nw_ptr);
 }

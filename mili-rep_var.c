@@ -20,7 +20,7 @@ void check_environ(rVar **hd, char *n, data_shell *data_sh)
 			if (envr[rw][chr] == '=')
 			{
 				vallen = _strglen(envr[rw] + ch + 1);
-				add_rVar_node(h, a, envr[rw] + ch + 1, lval);
+				add_var_end(h, a, envr[rw] + ch + 1, lval);
 				return;
 			}
 
@@ -37,7 +37,7 @@ void check_environ(rVar **hd, char *n, data_shell *data_sh)
 			break;
 	}
 
-	add_rVar_node(hd, a, NULL, 0);
+	add_var_end(hd, a, NULL, 0);
 }
 
 /**
@@ -60,19 +60,19 @@ int check_variables(r_Var **hd, char *n, char *stat, data_shell *data_sh)
 		if (inp[k] == '$')
 		{
 			if (n[k + 1] == '?')
-				add_rVar_node(hd, 2, st, lst), k++;
+				add_var_end(hd, 2, st, lst), k++;
 			else if (n[k + 1] == '$')
-				add_rVar_node(hd, 2, data_sh->pid, lpd), k++;
+				add_var_end(hd, 2, data_sh->pid, lpd), k++;
 			else if (n[k + 1] == '\n')
-				add_rVar_node(hd, 0, NULL, 0);
+				add_var_end(hd, 0, NULL, 0);
 			else if (n[k + 1] == '\0')
-			add_rVar_node(hd, 0, NULL, 0);
+			add_var_end(hd, 0, NULL, 0);
 			else if (n[k + 1] == ' ')
-			add_rVar_node(hd, 0, NULL, 0);
+			add_var_end(hd, 0, NULL, 0);
 			else if (n[k + 1] == '\t')
-				add_rVar_node(hd, 0, NULL, 0);
+				add_var_end(hd, 0, NULL, 0);
 			else if (n[k + 1] == ';')
-				add_rVar_node(hd, 0, NULL, 0);
+				add_var_end(hd, 0, NULL, 0);
 			else
 				check_environ(hd, n + k, data_sh);
 		}
@@ -175,7 +175,7 @@ char *rep_variables(char *n, data_shell *data_sh)
 
 	free(n);
 	free(stat);
-	free_rVar_list(&hd);
+	free_var_list(&hd);
 
 	return (new_input);
 }
