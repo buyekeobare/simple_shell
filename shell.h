@@ -4,15 +4,11 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <errno.h>
-#include <string.h>
-#include <sys/types.h>
-#include <stdbool.h>
-#include <stddef.h>
-#include <error.h>
-#include <signal.h>
-#include <sys/wait.h>
 #include <sys/stat.h>
+#include <errno.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <signal.h>
 #include <fcntl.h>
 #include <limits.h>
 
