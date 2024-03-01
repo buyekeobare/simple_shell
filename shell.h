@@ -4,15 +4,12 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
-#include <errno.h>
-#include <string.h>
-#include <sys/types.h>
-#include <stdbool.h>
-#include <stddef.h>
-#include <error.h>
-#include <signal.h>
-#include <sys/wait.h>
 #include <sys/stat.h>
+#include <errno.h>
+#include <erroh.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <signal.h>
 #include <fcntl.h>
 #include <limits.h>
 
@@ -209,6 +206,8 @@ char *errExit_shell(data_shell *data_sh);
 /* mili-error1.c */
 char *errEnv(data_shell *data_sh);
 char *errPath_126(data_shell *data_sh);
+char *error_syntax(char **args);
+char *error_permission(char **args);
 
 /* mili-get_error.c */
 int get_err(data_shell *data_sh, int err_val);
