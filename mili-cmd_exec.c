@@ -162,8 +162,8 @@ int check_err_cmd(char *ddir, data-shell *data_sh)
  */
 int cmd_executable(data_shell *data_sh)
 {
-	pid_t pd_t;
-	pid_t wpd_t;
+	pid_t pd;
+	pid_t wpd;
 	int state;
 	int exec;
 	char *ddir;
@@ -186,17 +186,17 @@ int cmd_executable(data_shell *data_sh)
 			ddir = _which(data_sh->args[0], data_sh->envir);
 		else
 			ddir = data_sh->args[0];
-		execve(dir + exec, data_sh->args, data_sh->envir);
+		execve(ddir + exec, data_sh->args, data_sh->envir);
 	}
 	else if (pd < 0)
 	{
-		perror(data_sh->argvec[0]);
+		perror(data_sh->argv[0]);
 		return (1);
 	}
 	else
 	{
 		do {
-			wpd_t = waitpid(pd_t, &state, WUNTRACED);
+			wpd = waitpid(pd, &state, WUNTRACED);
 		} while (!WIFEXITED(state) && !WIFSIGNALED(state));
 	}
 
