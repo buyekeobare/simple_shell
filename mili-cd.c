@@ -1,43 +1,44 @@
 #include "shell.h"
 
 /**
- * cdDot - a function that changes to the parent directory
- * @data_sh: (environment) relevant data
+ * change_par_dir - a function that changes to the parent directory
+ * @data_sh: relevant data environment
+ * Return: no return
  */
-void cdDot(data_shell *data_sh)
+void change_par_dir(data_shell *data_sh)
 {
-	char pwd[PATH_MAX];
-	char *dir, *cp_pwd, *cp_strgtok_pwd;
+	char curr_path[PATH_MAX];
+	char *cdir, *cpd_curr_path, *cpd_strgtok_curr_path;
 
-	getcwd(pwd, sizeof(pwd));
-	cp_pwd = _strgdup(pwd);
-	setEnv("OLDPWD", cp_pwd, data_sh);
-	dir = data_sh->args[1];
-	if (_strgcmp(".", dir) == 0)
+	getcwd(curr_path, sizeof(curr_path));
+	cpd_curr_path = _strgdup(curr_path);
+	setEnv("OLDPWD", cpd_curr_path, data_sh);
+	cdir = data_sh->args[1];
+	if (_strgcmp(".", cdir) == 0)
 	{
-		setEnv("PWD", cp_pwd, data_sh);
+		setEnv("PWD", cpd_curr_path, data_sh);
 
-		free(cp_pwd);
+		free(cpd_curr_path);
 		return;
 	}
-	if (_strgcmp("/", cp_pwd) == 0)
+	if (_strgcmp("/", cpd_curr_path) == 0)
 	{
-		free(cp_pwd);
+		free(cpd_curr_path);
 		return;
 	}
-	cp_strgtok_pwd = cp_pwd;
-	revStrg(cp_strgtok_pwd);
-	cp_strgtok_pwd = _strgtok(cp_strgtok_pwd, "/");
-	if (cp_strgtok_pwd != NULL)
+	cpd_strgtok_curr_path = cpd_curr_path;
+	revStrg(cpd_strgtok_curr_path);
+	cpd_strgtok_curr_path = _strgtok(cpd_strgtok_curr_path, "/");
+	if (cpd_strgtok_curr_path != NULL)
 	{
-		cp_strgtok_pwd = _strgtok(NULL, "\0");
-		if (cp_strgtok_pwd != NULL)
-			revStrg(cp_strgtok_pwd);
+		cpd_strgtok_curr_path = _strgtok(NULL, "\0");
+		if (cpd_strgtok_curr_path != NULL)
+			revStrg(cpd_strgtok_curr_path);
 	}
-	if (cp_strgtok_pwd != NULL)
+	if (cpd_strgtok_curr_path != NULL)
 	{
-		chdir(cp_strgtok_pwd);
-		setEnv("PWD", cp_strgtok_pwd, data_sh);
+		chdir(cpd_strgtok_curr_path);
+		setEnv("PWD", cpd_strgtok_curr_path, data_sh);
 	}
 	else
 	{
@@ -45,110 +46,115 @@ void cdDot(data_shell *data_sh)
 		setEnv("PWD", "/", data_sh);
 	}
 	data_sh->stat = 0;
-	free(cp_pwd);
+	free(cpd_curr_path);
 }
 /**
- * cdTo - function that changes to a directory 
+ * change_dir - function that changes to a directory 
  * given by user
- * @data_sh: (Environment) relevant data
+ * @data_sh: relevant data environment
+ * Return: no return
  */
-void cdTo(data_shell *data_sh)
+void change_dir(data_shell *data_sh)
 {
-	char pwd[PATH_MAX];
-	char *dir, *cp_pwd, *cp_dir;
+	char curr_path[PATH_MAX];
+	char *cdir, *cp_curr_path, *cpd_cdir;
 
-	getcwd(pwd, sizeof(pwd));
+	getcwd(curr_path, sizeof(curr_path));
 
 	dir = data_sh->args[1];
-	if (chdir(dir) == -1)
+	if (chdir(cdir) == -1)
 	{
-		get_err(data_sh, 2);
+		_geterror(data_sh, 2);
 		return;
 	}
 
-	cp_pwd = _strgdup(pwd);
-	setEnv("OLDPWD", cp_pwd, data_sh);
+	cpd_curr_path = _strgdup(curr_path);
+	setEnv("OLDPWD", cpd_curr_path, data_sh);
 
-	cp_dir = _strgdup(dir);
-	setEnv("PWD", cp_dir, data_sh);
+	cpd_cdir = _strgdup(cdir);
+	setEnv("PWD", cpd_cdir, data_sh);
 
-	free(cp_pwd);
-	free(cp_dir);
+	free(cpd_curr_path);
+	free(cpd_curr_path);
 
 	data_sh->stat = 0;
 
-	chdir(dir);
+	chdir(cdir);
 }
 /**
- * cdPrev - function that changes to the previous directory
- * @data_sh: (environment) relevant data
+ * change_to_prev_dir - function that changes to the previous directory
+ * @data_sh: relevant data environment
+ * Return: no return
  */
-void cdPrev(data_shell *data_sh)
+void change_to_prev_dir(data_shell *data_sh)
 {
-	char pwd[PATH_MAX];
-	char *p_pwd, *p_oldpwd, *cp_pwd, *cp_oldpwd;
+	char curr_path[PATH_MAX];
+	char *cpd_curr_path, *prev_oldpwd, *cpd_oldpwd, *cpd_newpwd;
 
-	getcwd(pwd, sizeof(pwd));
-	cp_pwd = _strgdup(pwd);
+	getcwd(curr_path, sizeof(curr_path));
+	cpd_curr_path = _strgdup(curr_path);
 
-	p_oldpwd = get_envir("OLDPWD", data_sh->envir);
+	prev_oldpwd = get_envir("OLDPWD", data_sh->envir);
 
-	if (p_oldpwd == NULL)
-		cp_oldpwd = cp_pwd;
+	if (prev_oldpwd == NULL)
+		cpd_oldpwd = cpd_curr_path;
 	else
-		cp_oldpwd = _strgdup(p_oldpwd);
+		cpd_oldpwd = _strgdup(prev_oldpwd);
 
-	setEnv("OLDPWD", cp_pwd, data_sh);
+	setEnv("OLDPWD", cpd_curr_path, data_sh);
 
-	if (chdir(cp_oldpwd) == -1)
-		setEnv("PWD", cp_pwd, data_sh);
+	if (chdir(cpd_oldpwd) == -1)
+		setEnv("PWD", cpd_curr_path, data_sh);
 
 	else
-		setEnv("PWD", cp_oldpwd, data_sh);
+		setEnv("PWD", cpd_oldpwd, data_sh);
 
-	p_pwd = get_envir("PWD", data_sh->envir);
+	cpd_newpwd = get_envir("PWD", data_sh->envir);
 
-	write(STDOUT_FILENO, p_pwd, _strglen(p_pwd));
+	write(STDOUT_FILENO, cpd_newpwd, _strglen(cpd_newpwd));
 	write(STDOUT_FILENO, "\n", 1);
 
-	free(cp_pwd);
-	if (p_oldpwd)
-		free(cp_oldpwd);
+	free(cpd_curr_path);
+	if (prev_oldpwd)
+		free(cpd_oldpwd);
 
 	data_sh->stat = 0;
 
-	chdir(p_pwd);
+	chdir(cpd_newpwd);
 }
-/**
- * cdToHome - fucntion that changes to home directory
- * @data_sh: (environment) relevant data
- */
-void cdToHome(data_shell *data_sh)
-{
-	char *p_pwd, *hme;
-	char pwd[PATH_MAX];
 
-	getcwd(pwd, sizeof(pwd));
-	p_pwd = _strgdup(pwd);
+
+/**
+ * change_to_home_dir - function that changes to home directory
+ * @data_sh: relevant data enevironment
+ * Return: no return
+ */
+void change_to_home_dir(data_shell *data_sh)
+{
+	char *cpd_curr_path, *hme;
+	char curr_path[PATH_MAX];
+
+	getcwd(curr_path, sizeof(curr_path));
+	cpd_curr_path = _strgdup(curr_path);
 
 	hme = get_envir("HOME", data_sh->envir);
 
 	if (hme == NULL)
 	{
-		setEnv("OLDPWD", p_pwd, data_sh);
-		free(p_pwd);
+		setEnv("OLDPWD", cpd_curr_path, data_sh);
+		free(cpd_curr_path);
 		return;
 	}
 
 	if (chdir(hme) == -1)
 	{
-		get_err(data_sh, 2);
-		free(p_pwd);
+		_geterror(data_sh, 2);
+		free(cpd_curr_path);
 		return;
 	}
 
-	setEnv("OLDPWD", p_pwd, data_sh);
+	setEnv("OLDPWD", cpd_curr_path, data_sh);
 	setEnv("PWD", hme, data_sh);
-	free(p_pwd);
+	free(cpd_curr_path);
 	data_sh->stat = 0;
 }

@@ -1,42 +1,42 @@
 #include "shell.h"
 
 /**
- * cdir_shell - a function that changes current directory
- * @data_sh: (Environment) relevant data
+ * change_dir_shell - a function that changes current directory
+ * @data_sh: relevant data environment
  * Return: 1 on success
  */
-int cdir_shell(data_shell *data_sh)
+int change_dir_shell(data_shell *data_sh)
 {
-	char *dir;
-	int is_hme1, is_hme2, is_ddash;
+	char *directory;
+	int is_hme1, is_hme2, is_dble_dash;
 
-	dir = data_sh->args[1];
+	directory = data_sh->args[1];
 
-	if (dir != NULL)
+	if (directory != NULL)
 	{
-		is_hme1 = _strgcmp("$HOME", dir);
-		is_hme2 = _strgcmp("~", dir);
-		is_ddash = _strgcmp("--", dir);
+		is_hme1 = _strgcmp("$HOME", directory);
+		is_hme2 = _strgcmp("~", directory);
+		is_dble_dash = _strgcmp("--", directory);
 	}
 
-	if (dir == NULL || !is_hme1 || !is_hme2 || !is_ddash)
+	if (directory == NULL || !is_hme1 || !is_hme2 || !is_dble_dash)
 	{
-		cdToHome(data_sh);
+		change_to_home_dir(data_sh);
 		return (1);
 	}
 
-	if (_strgcmp("-", dir) == 0)
+	if (_strgcmp("-", directory) == 0)
 	{
-		cdPrev(data_sh);
+		change_to_prev_dir(data_sh);
 		return (1);
 	}
 
-	if (_strgcmp(".", dir) == 0 || _strgcmp("..", dir) == 0)
+	if (_strgcmp(".", directory) == 0 || _strgcmp("..", directory) == 0)
 	{
-		cdDot(data_sh);
+		change_par_dir(data_sh);
 		return (1);
 	}
-	cdTo(data_sh);
+	change_dir(data_sh);
 
 	return (1);
 }

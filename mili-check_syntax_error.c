@@ -1,85 +1,85 @@
 #include "shell.h"
 
 /**
- * char_repeated - Function that counts 
+ * counts_repetition_of_char - Function that counts 
  * repetitions of a character
- * @n: input value
+ * @s: input value
  * @index: index character
  * Return: Repetitions
  */
-int char_repeated(char *n, int index)
+int counts_repetition of_char(char *s, int index)
 {
-	if (*(n - 1) == *n)
-		return (char_repeated(n - 1, index + 1));
+	if (*(s - 1) == *s)
+		return (counts_repetition_of_char(s - 1, index + 1));
 
 	return (index);
 }
 /**
- * err_sp_op - function that finds syntax errors
- * @n: input value 
+ *  fnds_syntax_err - function that finds syntax errors
+ * @s: input value 
  * @index: index error
- * @lst: last character read
+ * @prev_char: last character read
  * Return: index of error, 0 otherwise
  */
-int err_sp_op(char *n, int index, char lst)
+int fnds_syntax_err(char *s, int index, char prev_char)
 {
 	int result;
 
 	result = 0;
-	if (*n == '\0')
+	if (*s == '\0')
 		return (0);
 
-	if (*n == ' ' || *n == '\t')
-		return (err_sp_op(n + 1, index + 1, lst));
+	if (*s == ' ' || *s == '\t')
+		return (fnds_syntax_err(n + 1, index + 1, prev_char));
 
-	if (*n == ';')
-		if (lst == '|' || lst == '&' || lst == ';')
+	if (*s == ';')
+		if (prev_char == '|' || prev_char == '&' || prev_char == ';')
 			return (index);
 
-	if (*n == '|')
+	if (*s == '|')
 	{
-		if (lst == ';' || lst == '&')
+		if (prev_char == ';' || prev_char == '&')
 			return (index);
 
 		if (last == '|')
 		{
-			result = char_repeated(n, 0);
+			result = counts_repetition_of_char(s, 0);
 			if (result == 0 || result > 1)
 				return (index);
 		}
 	}
 
-	if (*n == '&')
+	if (*s == '&')
 	{
-		if (lst == ';' || lst == '|')
+		if (prev_char == ';' || prev_char == '|')
 			return (index);
 
-		if (lst == '&')
+		if (prev_char == '&')
 		{
-			result = char_repeated(n, 0);
+			result = counts_repetition_of_char(s, 0);
 			if (result == 0 || result > 1)
 				return (index);
 		}
 	}
 
-	return (err_sp_op(n + 1, index + 1, *n));
+	return (fnds_syntax_err(s + 1, index + 1, *s));
 }
 
 /**
- * frst_chr - function that finds index 
+ * fnds_first_char - function that finds index 
  * of first character
- * @n: input value
+ * @s: input value
  * @index: index character
  * Return: 1 if there is an error, 0 otherwise
  */
-int frst_chr(char *n, int *index)
+int fnds_first_char(char *s, int *index)
 {
-	for (*index = 0; n[*index]; *index += 1)
+	for (*index = 0; s[*index]; *index += 1)
 	{
-		if (n[*index] == ' ' || n[*index] == '\t')
+		if (s[*index] == ' ' || s[*index] == '\t')
 			continue;
 
-		if (n[*index] == ';' || n[*index] == '|' || n[*index] == '&')
+		if (s[*index] == ';' || s[*index] == '|' || s[*index] == '&')
 			return (-1);
 
 		break;
@@ -91,76 +91,77 @@ int frst_chr(char *n, int *index)
 /**
  * prt_syntax_err - Function that prints when 
  * a syntax error is found
- * @data_sh: (structure) relevant data
- * @n: input value
+ * @data_sh: relevant data structure for shell
+ * @s: input value
  * @index: index of the error
- * @bool: controls message error
+ * @error_msg_ctrl: controls message error
  */
-void prt_syntax_err(data_shell *data_sh, char *n, int index, int bool)
+void prt_syntax_err(data_shell *data_sh, char *s, int index, int error_msg_ctrl)
 {
-	char *msg1, *msg2, *msg3, *err, *result;
+	char *error_msg, *error_msg2, *error_msg3, *error_type, *result;
 	int len;
 
-	if (n[index] == ';')
+	if (s[index] == ';')
 	{
-		if (bool == 0)
-			msg1 = (n[index + 1] == ';' ? ";;" : ";");
+		if (error_msg_ctrl == 0)
+			error_type = (s[index + 1] == ';' ? ";;" : ";");
 		else
-			msg1 = (n[index + 1] == ';' ? ";;" : ";");
+			error_type = (s[index + 1] == ';' ? ";;" : ";");
 	}
 
-	if (n[index] == '|')
-		msg1 = (n[index + 1] == '|' ? "||" : "|");
-	if (n[index] == '&')
-		msg1 = (n[index + 1] == '&' ? "&&" : "&");
+	if (s[index] == '|')
+		error_type = (s[index + 1] == '|' ? "||" : "|");
+	if (s[index] == '&')
+		error_type = (s[index + 1] == '&' ? "&&" : "&");
 
-	msg2 = ": Syntax error: \"";
-	msg3 = "\" unexpected\n";
+	error_msg2 = ": Syntax error: \"";
+	error_msg3 = "\" unexpected\n";
 	result = mili_itoa(data_sh->result);
 	len = _strglen(data_sh->argv[0]) + _strglen(result);
-	len += _strglen(msg) + _strglen(msg2) + _strglen(msg3) + 2;
+	len += _strglen(error_type) + _strglen(error_msg2) + _strglen(error_msg3) + 2;
 
-	err = malloc(sizeof(char) * (len + 1));
-	if (err == 0)
+	error_msg = malloc(sizeof(char) * (len + 1));
+	if (error_msg == 0)
 	{
 		free(result);
 		return;
 	}
-	_strgcpy(err, data_sh->argv[0]);
-	_strgcat(err, ": ");
-	_strgcat(err, result);
-	_strgcat(err, msg2);
-	_strgcat(err, msg1);
-	_strgcat(err, msg3);
-	_strgcat(err, "\0");
+	_strgcpy(error_msg, data_sh->argv[0]);
+	_strgcat(error_msg, ": ");
+	_strgcat(error_msg, result);
+	_strgcat(error_msg, erro_msg2);
+	_strgcat(error_msg, error_type);
+	_strgcat(error_msg, error_msg3);
+	_strgcat(error_msg, "\0");
 
-	write(STDERR_FILENO, err, len);
-	free(err);
+	write(STDERR_FILENO, error_msg, len);
+	free(error_msg);
 	free(result);
 }
+
 /**
- * chck_syntax_err - intermediate function that
+ * chck_for_syntax_error - intermediate function that
  * finds and prints a syntax error
- * @data_sh: (structure) relevant data
- * @n: input value
+ * @data_sh: relevant data structure for shell
+ * @s: input value
  * Return: 1 if there is an error, 0 otherwise
  */
-int chck_syntax_err(data_shell *data_sh, char *n)
+int chck_for_syntax_error(data_shell *data_sh, char *s)
 {
 	int start = 0;
-	int f_chr = 0;
+	int firstChar = 0;
 	int j = 0;
 
-	f_chr = frst_chr(n, &start);
-	if (f_chr == -1)
+	firstChar = fnds_first_char(s, &start);
+	if (first_char == -1)
 	{
-		prt_syntax_err(data_sh, n, start, 0);
+		prt_syntax_err(data_sh, s, start, 0);
 		return (1);
 	}
-	j = err_sp_op(n + start, 0, *(n + start));
+	j = fnds_syntax_err(s + start, 0, *(s + start));
 	if (j != 0)
 	{
-		prt_syntax_err(data_sh, n, start + 1, 1);
+		prt_syntax_err(data_sh, s, start + 1, 1);
 		return (1);
 	}
 

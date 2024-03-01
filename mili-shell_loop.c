@@ -1,11 +1,11 @@
 #include "shell.h"
 
 /**
- * witht_comment - Function that deletes comments from the input
+ * comment_remove - Function that deletes comments from the input
  * @n: input string
  * Return: input without comments
  */
-char *witht_comment(char *n)
+char *comment_remove(char *n)
 {
 	int k, upto;
 
@@ -36,7 +36,8 @@ char *witht_comment(char *n)
 
 /**
  * _shellloop - a function that is a Loop of shell
- * @data_sh: (argv, input, args) relevant  data
+ * @data_sh: relevant data structure(argv, input, args) 
+ * Return: no return
  */
 void _shellloop(data_shell *data_sh)
 {

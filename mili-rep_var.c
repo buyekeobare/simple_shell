@@ -1,13 +1,13 @@
 #include "shell.h"
 
 /**
- * check_environ - Function that checks if the typed 
+ * check_envir_var - Function that checks if the typed 
  * variable is an environment variable
  * @hd: The head of linked list
  * @n: input string
- * @data_sh: (structure) relevant data
+ * @data_sh: relevant data strcuture
  */
-void check_environ(rVar **hd, char *n, data_shell *data_sh)
+void check_envir_var(rVar **hd, char *n, data_shell *data_sh)
 {
 	int rw, ch, a, vallen;
 	char **envr;
@@ -45,24 +45,24 @@ void check_environ(rVar **hd, char *n, data_shell *data_sh)
  * the typed variable is $$ or $?
  * @hd: head of the linked list
  * @n: input string
- * @stat: last status of the Shell
- * @data_sh: (structure) relevant data
+ * @last_stat: last status of the Shell
+ * @data_sh: relevant data structure 
  */
-int check_variables(r_Var **hd, char *n, char *stat, data_shell *data_sh)
+int check_variables(r_Var **hd, char *n, char *last_stat, data_shell *data_sh)
 {
-	int k, lst, lpd;
+	int k, last_status_len, pid_len;
 
-	lst = _strglen(st);
-	lpd = _strglen(data_sh->pid);
+	last_status_len = _strglen(last_stat);
+	pid_len = _strglen(data_sh->pid);
 
-	for (k = 0; inp[k]; k++)
+	for (k = 0; n[k]; k++)
 	{
-		if (inp[k] == '$')
+		if (n[k] == '$')
 		{
 			if (n[k + 1] == '?')
-				add_var_end(hd, 2, st, lst), k++;
+				add_var_end(hd, 2, last_stat, last_status_len), k++;
 			else if (n[k + 1] == '$')
-				add_var_end(hd, 2, data_sh->pid, lpd), k++;
+				add_var_end(hd, 2, data_sh->pid, pid_len), k++;
 			else if (n[k + 1] == '\n')
 				add_var_end(hd, 0, NULL, 0);
 			else if (n[k + 1] == '\0')
@@ -74,7 +74,7 @@ int check_variables(r_Var **hd, char *n, char *stat, data_shell *data_sh)
 			else if (n[k + 1] == ';')
 				add_var_end(hd, 0, NULL, 0);
 			else
-				check_environ(hd, n + k, data_sh);
+				check_envir_var(hd, n + k, data_sh);
 		}
 	}
 

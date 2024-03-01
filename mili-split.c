@@ -3,14 +3,14 @@
 /**
  * swap_characters - A function that swaps | and & for non-printed chars
  * @n: input string
- * @bool: a type of swap.
+ * @shld_swap: a type of swap.
  * Return: swapped string
  */
-char *swap_characters(char *n, int bool)
+char *swap_characters(char *n, int shld_swap)
 {
 	int j;
 
-	if (bool == 0)
+	if (shld_swap == 0)
 	{
 		for (j = 0; n[j]; j++)
 		{
@@ -100,17 +100,17 @@ void nxt_cmd_line(separ_list **sep_list, line_lst **cmd_list, data_shell *data_s
 			if (sep_ls->separator== '&' || sep_ls->separator == ';')
 				sep_loop = 0;
 			if (sep_ls->separator == '|')
-				cmd_ls = cmd_ls->nxtNode, sep_ls = sep_ls->nxtNode;
+				cmd_ls = cmd_ls->nextNode, sep_ls = sep_ls->nextNode;
 		}
 		else
 		{
 			if (sep_ls->separator == '|' || sep_ls->separator == ';')
 				sep_loop = 0;
 			if (sep_ls->septor == '&')
-				cmd_ls = cmd_ls->nxtNode, sep_ls = sep_ls->nxtNode;
+				cmd_ls = cmd_ls->nextNode, sep_ls = sep_ls->nextNode;
 		}
 		if (sep_ls != NULL && !sep_loop)
-			sep_ls = sep_ls->nxtNode;
+			sep_ls = sep_ls->nextNode;
 	}
 
   *sep_ls = *sep_list;

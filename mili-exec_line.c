@@ -17,5 +17,5 @@ int _execline(data_shell *data_sh)
 	if (_builtin != NULL)
 		return (_builtin(data_sh));
 
-	return (cmd_executable(data_sh));
+	return (exec_cmd(data_sh));
 }

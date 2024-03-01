@@ -1,27 +1,27 @@
 #include "shell.h"
 
 /**
- * cpy_info - Function that copies information 
+ * cp_information - Function that copies information 
  * to create a new environment or alias
  * @nm: name (environment or alias)
  * @val: value (environment or alias)
  * Return: new environment or alias
  */
-char *cpy_info(char *nm, char *val)
+char *cp_information(char *nm, char *val)
 {
-	char *nw;
+	char *new_info;
 	int nameLen, valueLen, length;
 
 	nameLen = _strglen(nm);
 	valueLen = _strglen(val);
 	length = nameLen + valueLen + 2;
-	nw = malloc(sizeof(char) * (length));
-	_strgcpy(nw, nm);
-	_strgcat(nw, "=");
-	_strgcat(nw_size, val);
-	_strgcat(nw, "\0");
+	new_info = malloc(sizeof(char) * (length));
+	_strgcpy(new_info, nm);
+	_strgcat(new_info, "=");
+	_strgcat(new_info, val);
+	_strgcat(new_info, "\0");
 
-	return (nw);
+	return (new_info);
 }
 
 /**
@@ -35,23 +35,23 @@ void setEnv(char *nm, char *val, data_shell *data_sh)
 	int j;
 	char *v_env, *n_env;
 
-	for (j = 0; data_sh->env_var[j]; j++)
+	for (j = 0; data_sh->envir_var[j]; j++)
 	{
-		v_env = _strgdup(data_sh->env_var[j]);
+		v_env = _strgdup(data_sh->envir_var[j]);
 		n_env = _strgtok(v_env, "=");
 		if (_strgcmp(n_env, nm) == 0)
 		{
-			free(data_sh->env_var[j]);
-			data_sh->env_varr[j] = cpy_info(n_env, val);
+			free(data_sh->envir_var[j]);
+			data_sh->envir_varr[j] = cpy_info(n_env, val);
 			free(v_env);
 			return;
 		}
 		free(v_env);
 	}
 
-	data_sh->en_var = mili_realloc_dp(data_sh->en_var, j, sizeof(char *) * (j + 2));
-	data_sh->en_var[j] = cpy_info(nm, val);
-	data_sh->en_var[j + 1] = NULL;
+	data_sh->envir_var= mili_realloc_dp(data_sh->envir_var, j, sizeof(char *) * (j + 2));
+	data_sh->envir_var[j] = cp_information(nm, val);
+	data_sh->envir_var[j + 1] = NULL;
 }
 
 /**
@@ -65,7 +65,7 @@ int _setEnv(data_shell *data_sh)
 
 	if (data_sh->args[1] == NULL || data_sh->args[2] == NULL)
 	{
-		get_err(data_sh, -1);
+		_geterror(data_sh, -1);
 		return (1);
 	}
 
@@ -77,7 +77,7 @@ int _setEnv(data_shell *data_sh)
 /**
  * _unsetEnv - A function that deletes an
  * environment variable
- * @data_sh: (environment name) relevant data
+ * @data_sh: relevant data
  * Return: 1 on success
  */
 int _unsetEnv(data_shell *data_sh)
@@ -88,7 +88,7 @@ int _unsetEnv(data_shell *data_sh)
 
 	if (data_sh->args[1] == NULL)
 	{
-		get_err(data_sh, -1);
+		_geterror(data_sh, -1);
 		return (1);
 	}
 	q = -1;
@@ -104,21 +104,21 @@ int _unsetEnv(data_shell *data_sh)
 	}
 	if (q == -1)
 	{
-		get_err(data_sh, -1);
+		_geterror(data_sh, -1);
 		return (1);
 	}
 	realloc_env = malloc(sizeof(char *) * (j));
-	for (j = p = 0; data_sh->en_var[j]; j++)
+	for (j = p = 0; data_sh->envir_var[j]; j++)
 	{
 		if (j != q)
 		{
-			realloc_env[p] = data_sh->en_var[j];
+			realloc_env[p] = data_sh->envir_var[j];
 			p++;
 		}
 	}
 	realloc_env[p] = NULL;
-	free(data_sh->en_var[q]);
-	free(data_sh->en_var);
-	data_sh->en_var = realloc_env;
+	free(data_sh->envir_var[q]);
+	free(data_sh->envir_var);
+	data_sh->envir_var = realloc_env;
 	return (1);
 }

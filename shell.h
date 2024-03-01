@@ -38,7 +38,7 @@ typedef struct data
 	char **args;
 	int stat;
 	int result;
-	char **env_var;
+	char **envir_var;
 	char *pid;
 } data_shell;
 
@@ -50,8 +50,8 @@ typedef struct data
  */
 typedef struct separ_list
 {
-	char separ;
-	struct separ_list_s *nxtNode;
+	char separator;
+	struct separ_list_s *nextNode;
 } separ_list;
 
 /**
@@ -60,11 +60,11 @@ typedef struct separ_list
  * @nxtNode: The next node
  * Description: Single linked list to store command lines
  */
-typedef struct lineLst
+typedef struct line_lst
 {
 	char *ln;
-	struct lineLst_s *nxtNode;
-} lineLst;
+	struct line_lst_s *nextNode;
+} line_lst;
 
 /**
  * struct rVar_list - a single linked list
@@ -79,7 +79,7 @@ typedef struct rVar_list
 	int var_length;
 	char *var_value;
 	int val_length;
-	struct rVar_list *nxtNode;
+	struct rVar_list *nextNode;
 } rVar;
 
 /**
@@ -126,65 +126,65 @@ char *_strgtok(char strg[], const char *delim);
 int is_digit(const char *strg);
 
 /* mili-check_syntax_error.c */
-int char_repeated(char *n, int i);
-int err_sp_op(char *n, int i, char lst);
-int frst_chr(char *n, int *i);
-void prt_syntax_err(data_shell *data_sh, char *n, int i, int bool);
-int chck_syntax_err(data_shell *data_sh, char *n);
+int counts_repetition of_char(char *s, int index);
+int fnds_syntax_err(char *s, int index, char prev_char);
+int fnds_first_char(char *s, int *index);
+void prt_syntax_err(data_shell *data_sh, char *s, int index, int error_msg_ctrl)
+int chck_for_syntax_error(data_shell *data_sh, char *s)
 
 /* mili-shell_Loop.c */
-char *witht_comment(char *n);
+char *comment_remove(char *n);
 void _shellloop(data_shell *data_sh);
 
 /* mili-read_input.c */
 char *read_input(int *result);
 
 /* mili-split.c */
-char *swap_characters(char *n, int bool);
+char *swap_characters(char *n, int shld_swap);
 void add_sep_commands(separ_list **sep_head, lineLst **cmd_hed, char *n);
 void nxt_cmd_line(separ_list **sep_list, lineLst **cmd_list, data_shell *data_sh);
 char **split_string(char *n);
 int split_cmds(data_shell *data_sh, char *n);
 
 /* mili-rep_var.c */
-void check_environ(rVar **hd, char *n, data_shell *data_sh);
+void check_envir_var(rVar **hd, char *n, data_shell *data_sh);
 int check_variables(rVar **hd, char *n, char *stat, data_shell *data_sh);
 char *rep_input(rVar **hd, char *n, char *new_inp, int new_len);
 char *rep_variables(char *n, data_shell *data_sh);
 
 /* mili-get_line.c */
-void bringLine(char **lineptr, size_t *n, char *buffer, size_t j);
-ssize_t getLine(char **lineptr, size_t *n, FILE *stream);
+void assigns_line(char **line_ptr, size_t *size_ptr, char *input_s, size_t s_size);
+ssize_t getline_fn(char **line_ptr, size_t *size_ptr, FILE *input_strm);
 
 /* mili-exec_line */
 int _execline(data_shell *data_sh);
 
 /* mili-cmd_exec.c */
-int is_cd(char *path, int *i);
-char *which(char *cmd, char **envir);
+int is_colon_cdir(char *curr_path, int *curr_index);
+char *locates_command(char *cmd, char **envir);
 int is_exec(data_shell *data_sh);
-int check_err_cmd(char *ddir, data_shell *data_sh);
-int cmd_executable(data_shell *data_sh);
+int check_cmd_error(char *ddir, data-shell *data_sh);
+int exec_cmd(data_shell *data_sh);
 
 /* mili-envir1.c */
-int cmp_envir_nm(const char *nenvir, const char *nm);
-char *get_envir(const char *nenvir, char **env_var);
-int envir(data_shell *data_sh);
+int compare_envir_var_name(const char *envir_var_name, const char *nm);
+char *get_envir_var(const char *envir_var_name, char **envir_var);
+int prints_envir_var(data_shell *data_sh);
 
 /* mili-envir2.c */
-char *cpy_info(char *nm, char *val);
+char *cp_information(char *nm, char *val);
 void setEnv(char *nm, char *val, data_shell *data_sh);
 int _setEnv(data_shell *data_sh);
 int _unsetEnv(data_shell *data_sh);
 
 /* mili-cd.c */
-void cdDot(data_shell *data_sh);
-void cdTo(data_shell *data_sh);
-void cdPrev(data_shell *data_sh);
-void cdToHome(data_shell *data_sh)
+void change_par_dir(data_shell *data_sh);
+void change_dir(data_shell *data_sh);
+void change_to_prev_dir(data_shell *data_sh);
+void change_to_home_dir(data_shell *data_sh)
 
 /* mili-cd_shell.c */
-int cdir_shell(data_shell *data_sh);
+int change_dir_shell(data_shell *data_sh);
 
 /* mili-get_builtin.c */
 int (*_getbuiltin(char *cmd))(data_shell *);
@@ -210,7 +210,7 @@ char *error_syntax(char **args);
 char *error_permission(char **args);
 
 /* mili-get_error.c */
-int get_err(data_shell *data_sh, int err_val);
+int _geterror(data_shell *data_sh, int error_val);
 
 /* mili-get_signal.c */
 void handleCrtl_c(int sig_num);

@@ -19,7 +19,7 @@ int _exitshell(data_shell *data_sh)
 		bignum = u_stat > (unsigned int)INT_MAX;
 		if (!isdigit || strglen > 10 || bignum)
 		{
-			get_err(data_sh, 2);
+			_geterror(data_sh, 2);
 			data_sh->stat = 2;
 			return (1);
 		}
