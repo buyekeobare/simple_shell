@@ -7,7 +7,11 @@
  * @n: input string
  * @data_sh: relevant data strcuture
  */
+<<<<<<< HEAD
 void check_envir_var(mili_variables **hd, char *n, data_shell *data_sh)
+=======
+void check_envir_var(rVar **hd, char *n, data_shell *data_sh)
+>>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
 {
 	int rw, ch, a, vallen;
 	char **envr;
@@ -20,7 +24,11 @@ void check_envir_var(mili_variables **hd, char *n, data_shell *data_sh)
 			if (envr[rw][ch] == '=')
 			{
 				vallen = _strglen(envr[rw] + ch + 1);
+<<<<<<< HEAD
 				add_var_end(hd, a, envr[rw] + ch + 1, vallen);
+=======
+				add_var_end(h, a, envr[rw] + ch + 1, lval);
+>>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
 				return;
 			}
 
@@ -48,7 +56,11 @@ void check_envir_var(mili_variables **hd, char *n, data_shell *data_sh)
  * @last_stat: last status of the Shell
  * @data_sh: relevant data structure 
  */
+<<<<<<< HEAD
 int check_variables(mili_variables **hd, char *n, char *last_stat, data_shell *data_sh)
+=======
+int check_variables(r_Var **hd, char *n, char *last_stat, data_shell *data_sh)
+>>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
 {
 	int k, last_status_len, pid_len;
 
@@ -158,4 +170,25 @@ char *rep_variables(char *n, data_shell *data_sh)
 	}
 
 	indx = hd;
+<<<<<<< HEAD
+=======
+	new_len = 0;
+
+	while (indx != NULL)
+	{
+		new_len += (indx->val_length - indx->var_length);
+		indx = indx->nxtNode;
+	}
+
+	new_len += old_len;
+
+	new_input = malloc(sizeof(char) * (new_len + 1));
+	new_input[new_len] = '\0';
+
+	new_input = rep_input(&hd, n, new_input, new_len);
+
+	free(n);
+	free(stat);
+	free_var_list(&hd);
+>>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
 

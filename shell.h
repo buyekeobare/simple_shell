@@ -41,6 +41,7 @@ typedef struct data
 } data_shell;
 
 /**
+<<<<<<< HEAD
  * struct separ_list_s - single linked list
  * @m_separator: ; | &
  * @nextNode: next node
@@ -49,6 +50,16 @@ typedef struct data
 typedef struct separ_list_s
 {
 	char m_separator;
+=======
+ * struct separ_list - a single linked list
+ * @separ: ; | &
+ * @nxtNode: next node
+ * Description: Single linked list to store separators
+ */
+typedef struct separ_list
+{
+	char separator;
+>>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
 	struct separ_list_s *nextNode;
 } separ_list;
 
@@ -58,9 +69,15 @@ typedef struct separ_list_s
  * @nextNode: next node
  * Description: single linked list to store command lines
  */
+<<<<<<< HEAD
 typedef struct line_lst_s
 {
 	char *line_cmd;
+=======
+typedef struct line_lst
+{
+	char *ln;
+>>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
 	struct line_lst_s *nextNode;
 } line_lst;
 
@@ -77,8 +94,13 @@ typedef struct mili_variables
 	int var_length;
 	char *var_value;
 	int val_length;
+<<<<<<< HEAD
 	struct mili_variables *nextNode;
 } mili_variables;
+=======
+	struct rVar_list *nextNode;
+} rVar;
+>>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
 
 /**
  * struct builtin_s - Builtin struct for command args.
@@ -91,11 +113,28 @@ typedef struct builtin_s
 	int (*mili_function)(data_shell *data_sh);
 } builtin_t;
 
+<<<<<<< HEAD
 /* mili-get_help.c */
 int _gethelp(data_shell *data_sh);
 
 /* mili-cd_shell.c */
 int change_dir_shell(data_shell *data_sh);
+=======
+/* milli-linked_lists.c */
+separ_list *add_separ_list_end(separ_list **head_list, char separ);
+void free_separ_list(separ_list **head_list);
+line_lst *add_line_list_end(line_lst **head_list, char *line_cmd);
+void free_line_lst(line_lst **head_list);
+
+/* mili-linked_lists2.c */
+rVar *add_var_end(rVar **head_list, int varlen, char *varval, int vallen);
+void free_var_list(rVar **head_list);
+
+/* mili-mem.c */
+void mili_memcpy(void *dest_ptr, const void *src_ptr, unsigned int n);
+void *mili_realloc(void *org_ptr, unsigned int ol_size, unsigned int nw_size);
+char **mili_realloc_dp(char **org_ptr, unsigned int ol_size, unsigned int nw_size);
+>>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
 
 /* mili-get_builtin.c */
 int (*_getbuiltin(char *parm))(data_shell *);
@@ -109,6 +148,7 @@ char *gen_cd_error(data_shell *data_sh);
 char *gen_not_found_error(data_shell *data_sh);
 char *gen_exit_shell_error(data_shell *data_sh);
 
+<<<<<<< HEAD
 /* mili-error1.c */
 char *gen_env_error(data_shell *data_sh);
 char *gen_path126_error(data_shell *data_sh);
@@ -117,6 +157,18 @@ char *error_permission(char **args);
 
 /* mili-get_error.c */
 int _geterror(data_shell *data_sh, int error_val);
+=======
+/* mili-check_syntax_error.c */
+int counts_repetition of_char(char *s, int index);
+int fnds_syntax_err(char *s, int index, char prev_char);
+int fnds_first_char(char *s, int *index);
+void prt_syntax_err(data_shell *data_sh, char *s, int index, int error_msg_ctrl)
+int chck_for_syntax_error(data_shell *data_sh, char *s)
+
+/* mili-shell_Loop.c */
+char *comment_remove(char *n);
+void _shellloop(data_shell *data_sh);
+>>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
 
 /* mili-cd.c */
 void change_par_dir(data_shell *data_sh);
@@ -124,6 +176,7 @@ void change_dir(data_shell *data_sh);
 void change_to_prev_dir(data_shell *data_sh);
 void change_to_home_dir(data_shell *data_sh);
 
+<<<<<<< HEAD
 /* mili-cmd_exec.c */
 int is_colon_cdir(char *curr_path, int *curr_index);
 char *locates_command(char *cmd, char **envir);
@@ -142,13 +195,40 @@ int finds_syntax_error(char *s, int index, char prev_char);
 int finds_index_first_char(char *s, int *index);
 void prints_found_syntax_error(data_shell *data_sh, char *s, int index, int error_msg_ctrl);
 int finds_prints_syntax_error(data_shell *data_sh, char *s);
+=======
+/* mili-split.c */
+char *swap_characters(char *n, int shld_swap);
+void add_sep_commands(separ_list **sep_head, lineLst **cmd_hed, char *n);
+void nxt_cmd_line(separ_list **sep_list, lineLst **cmd_list, data_shell *data_sh);
+char **split_string(char *n);
+int split_cmds(data_shell *data_sh, char *n);
+
+/* mili-rep_var.c */
+void check_envir_var(rVar **hd, char *n, data_shell *data_sh);
+int check_variables(rVar **hd, char *n, char *stat, data_shell *data_sh);
+char *rep_input(rVar **hd, char *n, char *new_inp, int new_len);
+char *rep_variables(char *n, data_shell *data_sh);
+
+/* mili-get_line.c */
+void assigns_line(char **line_ptr, size_t *size_ptr, char *input_s, size_t s_size);
+ssize_t getline_fn(char **line_ptr, size_t *size_ptr, FILE *input_strm);
+>>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
 
 /* mili-get_sigint.c */
 void handleCrtl_c(int sig_num);
 
+<<<<<<< HEAD
 /* mili-shell_Loop.c */
 char *comment_remove(char *n);
 void _shellloop(data_shell *data_sh);
+=======
+/* mili-cmd_exec.c */
+int is_colon_cdir(char *curr_path, int *curr_index);
+char *locates_command(char *cmd, char **envir);
+int is_exec(data_shell *data_sh);
+int check_cmd_error(char *ddir, data-shell *data_sh);
+int exec_cmd(data_shell *data_sh);
+>>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
 
 /* mili-envir1.c */
 int compare_envir_var_name(const char *envir_var_name, const char *nm);
@@ -161,6 +241,7 @@ void setEnv(char *nm, char *val, data_shell *data_sh);
 int _setEnv(data_shell *data_sh);
 int _unsetEnv(data_shell *data_sh);
 
+<<<<<<< HEAD
 /* mili-mem.c */
 void mili_memcpy(void *dest_ptr, const void *src_ptr, unsigned int n);
 void *mili_realloc(void *org_ptr, unsigned int ol_size, unsigned int nw_size);
@@ -168,6 +249,16 @@ char **mili_realloc_dp(char **org_ptr, unsigned int ol_size, unsigned int nw_siz
 
 /* mili-strglen.c */
 int _strglen(const char *strg);
+=======
+/* mili-cd.c */
+void change_par_dir(data_shell *data_sh);
+void change_dir(data_shell *data_sh);
+void change_to_prev_dir(data_shell *data_sh);
+void change_to_home_dir(data_shell *data_sh)
+
+/* mili-cd_shell.c */
+int change_dir_shell(data_shell *data_sh);
+>>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
 
 /* mili-strgcat.c*/
 char *_strgcat(char *dest, const char *src);
@@ -175,6 +266,7 @@ char *_strgcat(char *dest, const char *src);
 /* mili-strgcpy.c*/
 char *_strgcpy(char *dest, char *src);
 
+<<<<<<< HEAD
 /* mili-strgdup.c*/
 char *_strgdup(const char *strg);
 
@@ -186,6 +278,27 @@ int _strgspn(char *s, char *accept);
 
 /* mili-strgcmp.c */
 int _strgcmp(char *s1, char *s2);
+=======
+/* mili-stdlib.c */
+int brings_length(int num);
+char *mili_itoa(int num);
+int mili_atoi(char *str_input);
+
+/* mili-error.c */
+char *strgcat_cd(data_shell *data_sh, char *msg, char *error_msg, char *counter_str);
+char *gen_cd_error(data_shell *data_sh);
+char *gen_not_found_error(data_shell *data_sh);
+char *gen_exit_shell_error(data_shell *data_sh);
+
+/* mili-error1.c */
+char *gen_env_error(data_shell *data_sh);
+char *gen_path126_error(data_shell *data_sh);
+char *error_syntax(char **args);
+char *error_permission(char **args);
+
+/* mili-get_error.c */
+int _geterror(data_shell *data_sh, int error_val);
+>>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
 
 /* mili-revstrg.c */
 void revStrg(char *strg);
