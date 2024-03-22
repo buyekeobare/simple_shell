@@ -98,3 +98,6 @@ int mili_atoi(char *str_input)
 	}
 	return (x * m);
 }
+
+
+

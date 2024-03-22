@@ -25,30 +25,18 @@ char *comment_remove(char *n)
                 }
         }
 
-<<<<<<< HEAD
         if (upto != 0)
         {
                 n = mili_realloc(n, k, upto + 1);
                 n[upto] = '\0';
         }
-=======
-	if (upto != 0)
-	{
-		n = mili_realloc(n, k, upto + 1);
-		n[upto] = '\0';
-	}
->>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
 
         return (n);
 }
 
 /**
  * _shellloop - a function that is a Loop of shell
-<<<<<<< HEAD
  * @data_sh: relevant data structure(argv, input, args)
-=======
- * @data_sh: relevant data structure(argv, input, args) 
->>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
  * Return: no return
  */
 void _shellloop(data_shell *data_sh)
@@ -85,4 +73,3 @@ void _shellloop(data_shell *data_sh)
                 }
         }
 }
-

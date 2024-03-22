@@ -66,11 +66,7 @@ void *mili_realloc(void *org_ptr, unsigned int ol_size, unsigned int nw_size)
  * if nw_size == ol_size, return ptr witht changes
  * if malloc fails, return NULL
  */
-<<<<<<< HEAD
 char **mili_realloc_dp(char **org_ptr, unsigned int ol_size, unsigned int nw_size)
-=======
-char **mili_realloc_dp(char **or_ptr, unsigned int ol_size, unsigned int nw_size)
->>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
 {
 	char **nw_ptr;
 	unsigned int x;
@@ -85,7 +81,6 @@ char **mili_realloc_dp(char **or_ptr, unsigned int ol_size, unsigned int nw_size
 	if (nw_ptr == NULL)
 		return (NULL);
 
-<<<<<<< HEAD
 	for (x = 0; x < ol_size; x++)
 		nw_ptr[x] = org_ptr[x];
 
@@ -93,13 +88,3 @@ char **mili_realloc_dp(char **or_ptr, unsigned int ol_size, unsigned int nw_size
 
 	return (nw_ptr);
 }
-
-=======
-	for (x = 0; x < old_size; x++)
-		nw_ptr[x] = org_ptr[x];
-
-	free(org_ptr);
-
-	return (nw_ptr);
-}
->>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a

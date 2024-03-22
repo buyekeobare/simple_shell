@@ -8,19 +8,11 @@
  * @vallen: length of the value
  * Return: address of the head
  */
-<<<<<<< HEAD
 mili_variables *add_var_end(mili_variables **head_list, int varlen, char *varval, int vallen)
 {
 	mili_variables *newNode, *tempNode;
 
 	newNode = malloc(sizeof(mili_variables));
-=======
-rVar *add_var_end(rVar **head_list, int varlen, char *varval, int vallen)
-{
-	rVar *newNode, *tempNode;
-
-	newNode = malloc(sizeof(rVar));
->>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
 	if (newNode == NULL)
 		return (NULL);
 
@@ -48,17 +40,10 @@ rVar *add_var_end(rVar **head_list, int varlen, char *varval, int vallen)
  * free_var_list
  * @head_list: head of the linked list
  */
-<<<<<<< HEAD
 void free_var_list(mili_variables **head_list)
 {
 	mili_variables *tempNode;
 	mili_variables *curtNode;
-=======
-void free_var_list(rVar **head_list)
-{
-	rVar *tempNode;
-	rVar *curtNode;
->>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
 
 	if (head_list != NULL)
 	{

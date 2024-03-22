@@ -77,4 +77,3 @@ char *_strgtok(char strg[], const char *delim)
                 return (NULL);
         return (strgStart);
 }
-

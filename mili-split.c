@@ -48,11 +48,7 @@ char *swap_characters(char *n, int shld_swap)
  * @head_l: head of command lines list
  * @n: input string
  */
-<<<<<<< HEAD
 void add_sep_commands(separ_list **head_s, line_lst **head_l, char *n)
-=======
-void add_sep_commands(separ_list **sep_head, line_lst **cmd_head, char *n)
->>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
 {
 	int j;
 	char *lines;
@@ -62,19 +58,11 @@ void add_sep_commands(separ_list **sep_head, line_lst **cmd_head, char *n)
 	for (j = 0; n[j]; j++)
 	{
 		if (n[j] == ';')
-<<<<<<< HEAD
 			add_separ_list_end(head_s, n[j]);
 
 		if (n[j] == '|' || n[j] == '&')
 		{
 			add_separ_list_end(head_s, n[j]);
-=======
-			add_separ_list_end(sep_head, n[j]);
-
-		if (n[j] == '|' || n[j] == '&')
-		{
-			add_separ_list_end(sep_head, n[j]);
->>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
 			j++;
 		}
 	}
@@ -82,11 +70,7 @@ void add_sep_commands(separ_list **sep_head, line_lst **cmd_head, char *n)
 	lines = _strgtok(n, ";|&");
 	do {
 		lines = swap_characters(lines, 1);
-<<<<<<< HEAD
 		add_line_list_end (head_l, lines);
-=======
-		add_line_list_end (cmd_head, lines);
->>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
 		lines = _strgtok(NULL, ";|&");
 	} while (lines != NULL);
 
@@ -99,19 +83,11 @@ void add_sep_commands(separ_list **sep_head, line_lst **cmd_head, char *n)
  * @data_sh: data structure
  * Return: no return
  */
-<<<<<<< HEAD
 void next_cmd_line(separ_list **list_s, line_lst **list_l, data_shell *data_sh)
 {
 	int sep_loop;
 	separ_list *ls_s;
 	line_lst *ls_l;
-=======
-void nxt_cmd_line(separ_list **sep_list, line_lst **cmd_list, data_shell *data_sh)
-{
-	int sep_loop;
-	separ_list *sep_ls;
-	line_lst *cmd_ls;
->>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
 
 	sep_loop = 1;
 	ls_s = *list_s;
@@ -121,7 +97,6 @@ void nxt_cmd_line(separ_list **sep_list, line_lst **cmd_list, data_shell *data_s
 	{
 		if (data_sh->stat == 0)
 		{
-<<<<<<< HEAD
 			if (ls_s->m_separator== '&' || ls_s->m_separator == ';')
 				sep_loop = 0;
 			if (ls_s->m_separator == '|')
@@ -136,22 +111,6 @@ void nxt_cmd_line(separ_list **sep_list, line_lst **cmd_list, data_shell *data_s
 		}
 		if (ls_s != NULL && !sep_loop)
 			ls_s = ls_s->nextNode;
-=======
-			if (sep_ls->separator== '&' || sep_ls->separator == ';')
-				sep_loop = 0;
-			if (sep_ls->separator == '|')
-				cmd_ls = cmd_ls->nextNode, sep_ls = sep_ls->nextNode;
-		}
-		else
-		{
-			if (sep_ls->separator == '|' || sep_ls->separator == ';')
-				sep_loop = 0;
-			if (sep_ls->septor == '&')
-				cmd_ls = cmd_ls->nextNode, sep_ls = sep_ls->nextNode;
-		}
-		if (sep_ls != NULL && !sep_loop)
-			sep_ls = sep_ls->nextNode;
->>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
 	}
 
   	*list_s = ls_s;
@@ -245,52 +204,3 @@ char **split_string(char *n)
 
 	return (tokens);
 }
-
-<<<<<<< HEAD
-=======
-/**
- * split_cmds - A function that splits command lines according to
- * separators ;, | and &, and executes them
- * @data_sh: (data structure) relevant data
- * @n: input string
- * Return: 0 to exit, 1 to continue
- */
-int split_cmds(data_shell *data_sh, char *n)
-{
-
-	separ_list *sep_head, *sep_list;
-	line_lst *cmd_head, *cmd_list;
-	int loop;
-
-	sep_head = NULL;
-	cmd_head = NULL;
-
-	add_sep_commands(&sep_head, &cmd_head, n);
-
-	sep_list = sep_head;
-	cmd_list = cmd_head;
-
-	while (cmd_list != NULL)
-	{
-		data_sh->n = cmd_list->line;
-		data_sh->args = split_string(data_sh->n);
-		loop = _execline(data_sh);
-		free(data_sh->args);
-
-		if (loop == 0)
-			break;
-
-		nxt_cmd_line(&sep_list, &cmd_list, data_sh);
-
-		if (cmd_list != NULL)
-			cmd_list = cmd_list->nxtNode;
-	}
-
-	free_separ_list(&sep_head);
-	free_line_lst(&cmd_head);
-
-	if (loop == 0)
-		return (0);
-	return (1);
-}
->>>>>>> f3e94a838e36ede334658cc4a0fee47ca440322a
