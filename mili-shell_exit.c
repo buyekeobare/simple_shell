@@ -11,15 +11,15 @@ int _exitshell(data_shell *data_sh)
 	int strglen;
 	int bignum;
 
-	if (datash->args[1] != NULL)
+	if (data_sh->args[1] != NULL)
 	{
 		u_stat = mili_atoi(data_sh->args[1]);
-		isdigit = _isdigit(data_sh->args[1]);
+		isdigit = is_digit(data_sh->args[1]);
 		strglen = _strglen(data_sh->args[1]);
 		bignum = u_stat > (unsigned int)INT_MAX;
 		if (!isdigit || strglen > 10 || bignum)
 		{
-			get_err(data_sh, 2);
+			_geterror(data_sh, 2);
 			data_sh->stat = 2;
 			return (1);
 		}

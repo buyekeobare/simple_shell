@@ -1,26 +1,26 @@
 #include "shell.h"
 
 /**
- * check_environ - Function that checks if the typed 
+ * check_envir_var - Function that checks if the typed 
  * variable is an environment variable
  * @hd: The head of linked list
  * @n: input string
- * @data_sh: (structure) relevant data
+ * @data_sh: relevant data strcuture
  */
-void check_environ(rVar **hd, char *n, data_shell *data_sh)
+void check_envir_var(mili_variables **hd, char *n, data_shell *data_sh)
 {
 	int rw, ch, a, vallen;
 	char **envr;
 
-	envr = data_sh->envir;
-	for (rw = 0; envr[row]; rw++)
+	envr = data_sh->envir_var;
+	for (rw = 0; envr[rw]; rw++)
 	{
-		for (a = 1, ch = 0; envr[rw][]; ch++)
+		for (a = 1, ch = 0; envr[rw][ch]; ch++)
 		{
-			if (envr[rw][chr] == '=')
+			if (envr[rw][ch] == '=')
 			{
 				vallen = _strglen(envr[rw] + ch + 1);
-				add_rVar_node(h, a, envr[rw] + ch + 1, lval);
+				add_var_end(hd, a, envr[rw] + ch + 1, vallen);
 				return;
 			}
 
@@ -37,7 +37,7 @@ void check_environ(rVar **hd, char *n, data_shell *data_sh)
 			break;
 	}
 
-	add_rVar_node(hd, a, NULL, 0);
+	add_var_end(hd, a, NULL, 0);
 }
 
 /**
@@ -45,36 +45,36 @@ void check_environ(rVar **hd, char *n, data_shell *data_sh)
  * the typed variable is $$ or $?
  * @hd: head of the linked list
  * @n: input string
- * @stat: last status of the Shell
- * @data_sh: (structure) relevant data
+ * @last_stat: last status of the Shell
+ * @data_sh: relevant data structure 
  */
-int check_variables(r_Var **hd, char *n, char *stat, data_shell *data_sh)
+int check_variables(mili_variables **hd, char *n, char *last_stat, data_shell *data_sh)
 {
-	int k, lst, lpd;
+	int k, last_status_len, pid_len;
 
-	lst = _strglen(st);
-	lpd = _strglen(data_sh->pid);
+	last_status_len = _strglen(last_stat);
+	pid_len = _strglen(data_sh->pid);
 
-	for (k = 0; inp[k]; k++)
+	for (k = 0; n[k]; k++)
 	{
-		if (inp[k] == '$')
+		if (n[k] == '$')
 		{
 			if (n[k + 1] == '?')
-				add_rVar_node(hd, 2, st, lst), k++;
+				add_var_end(hd, 2, last_stat, last_status_len), k++;
 			else if (n[k + 1] == '$')
-				add_rVar_node(hd, 2, data_sh->pid, lpd), k++;
+				add_var_end(hd, 2, data_sh->pid, pid_len), k++;
 			else if (n[k + 1] == '\n')
-				add_rVar_node(hd, 0, NULL, 0);
+				add_var_end(hd, 0, NULL, 0);
 			else if (n[k + 1] == '\0')
-			add_rVar_node(hd, 0, NULL, 0);
+			add_var_end(hd, 0, NULL, 0);
 			else if (n[k + 1] == ' ')
-			add_rVar_node(hd, 0, NULL, 0);
+			add_var_end(hd, 0, NULL, 0);
 			else if (n[k + 1] == '\t')
-				add_rVar_node(hd, 0, NULL, 0);
+				add_var_end(hd, 0, NULL, 0);
 			else if (n[k + 1] == ';')
-				add_rVar_node(hd, 0, NULL, 0);
+				add_var_end(hd, 0, NULL, 0);
 			else
-				check_environ(hd, n + k, data_sh);
+				check_envir_var(hd, n + k, data_sh);
 		}
 	}
 
@@ -90,9 +90,9 @@ int check_variables(r_Var **hd, char *n, char *stat, data_shell *data_sh)
  * @new_len: new length.
  * Return: Replaced string
  */
-char *rep_input(rVar **hd, char *n, char *new_inp, int new_len)
+char *rep_input(mili_variables **hd, char *n, char *new_inp, int new_len)
 {
-	rVar *indx;
+	mili_variables *indx;
 	int l, m, p;
 
 	indx = *hd;
@@ -102,7 +102,7 @@ char *rep_input(rVar **hd, char *n, char *new_inp, int new_len)
 		{
 			if (!(indx->var_length) && !(indx->val_length))
 			{
-				new_inp[i] = n[m];
+				new_inp[l] = n[m];
 				m++;
 			}
 			else if (indx->var_length && !(indx->val_length))
@@ -115,13 +115,13 @@ char *rep_input(rVar **hd, char *n, char *new_inp, int new_len)
 			{
 				for (p = 0; p < indx->val_length; p++)
 				{
-					new_input[m] = indx->var_value[p];
+					new_inp[m] = indx->var_value[p];
 				l++;
 				}
 				m += (indx->var_length);
 				l--;
 			}
-			indx = indx->nxtNode;
+			indx = indx->nextNode;
 		}
 		else
 		{
@@ -130,7 +130,7 @@ char *rep_input(rVar **hd, char *n, char *new_inp, int new_len)
 		}
 	}
 
-	return (new_inpt);
+	return (new_inp);
 }
 
 /**
@@ -142,8 +142,8 @@ char *rep_input(rVar **hd, char *n, char *new_inp, int new_len)
  */
 char *rep_variables(char *n, data_shell *data_sh)
 {
-	rVar *hd, *indx;
-	char *stat, *new_Input;
+	mili_variables *hd, *indx;
+	char *stat, *new_input;
 	int old_len, new_len;
 
 	stat = mili_itoa(data_sh->stat);
@@ -158,24 +158,4 @@ char *rep_variables(char *n, data_shell *data_sh)
 	}
 
 	indx = hd;
-	new_len = 0;
 
-	while (indx != NULL)
-	{
-		new_len += (indx->val_length - indx->var_length);
-		indx = indx->nxtNode;
-	}
-
-	new_len += old_len;
-
-	new_input = malloc(sizeof(char) * (new_len + 1));
-	new_input[new_len] = '\0';
-
-	new_input = rep_input(&hd, n, new_input, new_len);
-
-	free(n);
-	free(stat);
-	free_rVar_list(&hd);
-
-	return (new_input);
-}
